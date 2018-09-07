@@ -77,4 +77,24 @@ def logout():
 @app.route("/add_product")
 @login_required
 def add_product():
-    return render_template('add_product.html', title='Add Product')
+    return render_template('add_product.html', title='Product')
+
+@app.route("/edit_product")
+@login_required
+def add_product():
+    return render_template('add_product.html', title='Product')
+
+@app.route("/add_location")
+@login_required
+def add_product():
+    return render_template('add_location.html?', title='Location')
+
+@app.route("/edit_location")
+@login_required
+def add_product():
+    return render_template('edit_location.html', title='Location')
+
+@app.route("/product_movement")
+@login_required
+def product_movement():
+    return render_template('product_movement.html', title='Movement')
