@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="col-md-6 offset-md-3">
+    <div class="col-md-6 offset-md-3 border pt-2">
+        <br>
         <div class="row">
             <div class="col-md-12">
                 <form method="POST" action="">
@@ -41,10 +42,10 @@
                     </fieldset>
                     <div class="form-group">
                         {{ form.submit(class="btn btn-success") }}
+                        <small class="text-muted ml-2">
+                            <a href="#">Forgot Password?</a>
+                        </small>
                     </div>
-                    <small class="text-muted ml-2">
-                        <a href="#">Forgot Password?</a>
-                    </small>
                 </form>
             </div>
             <div class="col-md-12 border-top pt-2">
