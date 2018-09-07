@@ -15,6 +15,18 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f"User('{self.username}', '{self.email}')"
+
+    def is_authenticated(self):
+        return True
+    
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return True
+
+    def get_id(self):
+        return str(self.user_id)
     
 class Product(db.Model):
     product_id = db.Column(db.Integer, primary_key=True)
