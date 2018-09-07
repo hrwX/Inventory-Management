@@ -74,3 +74,7 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+@app.route("/add_product")
+@login_required
+def add_product():
+    return render_template('add_product.html', title='Add Product')
