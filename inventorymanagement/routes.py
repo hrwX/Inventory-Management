@@ -81,18 +81,28 @@ def add_product():
 
 @app.route("/edit_product")
 @login_required
-def add_product():
-    return render_template('add_product.html', title='Product')
+def edit_product():
+    return render_template('edit_product.html', title='Product')
+
+@app.route("/view_product")
+@login_required
+def view_product():
+    return render_template('view_product.html', title='Product')
 
 @app.route("/add_location")
 @login_required
-def add_product():
-    return render_template('add_location.html?', title='Location')
+def add_location():
+    return render_template('add_location.html', title='Location')
 
 @app.route("/edit_location")
 @login_required
-def add_product():
+def edit_location():
     return render_template('edit_location.html', title='Location')
+
+@app.route("/view_location")
+@login_required
+def view_location():
+    return render_template('view_location.html', title='Location')    
 
 @app.route("/product_movement")
 @login_required

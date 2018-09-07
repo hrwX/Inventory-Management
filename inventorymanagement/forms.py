@@ -33,6 +33,4 @@ class AddProduct(FlaskForm):
 class AddLocation(FlaskForm):
     name = StringField('Location Name', validators=[DataRequired()])
 
-class ProductMovement(FlaskForm):
-    fromLocation = 
-    toLocation
+#class ProductMovement(FlaskForm):
