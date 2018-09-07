@@ -10,4 +10,4 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 
-from inventorymanagement import routes # to avoid circular imports issue
+from inventorymanagement import routes #to avoid circular imports issue
