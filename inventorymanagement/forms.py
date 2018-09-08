@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, DateTimeField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from inventorymanagement.models import User
 
@@ -36,7 +36,7 @@ class AddLocation(FlaskForm):
     name = StringField('Location Name', validators=[DataRequired()])
     submit = SubmitField('Add Location')
 
-class ProductMovement(FlaskForm):
+class AddProductMovement(FlaskForm):
     name = StringField('Product Name', validators=[DataRequired()])
     product_id = IntegerField(validators=[DataRequired()])
     fromLocation = StringField('From Location', validators=[DataRequired()])
@@ -44,5 +44,5 @@ class ProductMovement(FlaskForm):
     toLocation = StringField('To Location', validators=[DataRequired()])
     toLocationId = IntegerField(validators=[DataRequired()])
     quantity = IntegerField('Product Quantity', validators=[DataRequired()])
-    #timestamp = 
+    timestamp = DateTimeField(validators=[DataRequired()])
     submit = SubmitField('Move Product')

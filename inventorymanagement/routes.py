@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request
 from inventorymanagement import app, db, bcrypt
-from inventorymanagement.forms import RegistrationForm, LoginForm, AddProduct, AddLocation
+from inventorymanagement.forms import RegistrationForm, LoginForm, AddProduct, AddLocation, AddProductMovement
 from inventorymanagement.models import User, Product, Location, ProductMovement
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -47,6 +47,8 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+########################Products######################################
+
 @app.route("/add_product", methods=['GET', 'POST'])
 @login_required
 def add_product():
@@ -62,6 +64,8 @@ def edit_product():
 @login_required
 def view_product():
     return render_template('view_product.html', title='Product')
+
+########################Locations######################################
 
 @app.route("/add_location", methods=['GET', 'POST'])
 @login_required
@@ -79,17 +83,28 @@ def edit_location():
 def view_location():
     return render_template('view_location.html', title='Location') 
 
-@app.route("/view_sales")
-@login_required
-def view_sales():
-    return render_template('view_sales.html', title='Sales')
+########################ProductMovements######################################
 
 @app.route("/add_productmovement", methods=['GET', 'POST'])
 @login_required
 def add_productmovement():
+    form = AddProductMovement()
     return render_template('add_productmovement.html', title='Movement', form=form)
+
+@app.route("/edit_productmovement")
+@login_required
+def edit_productmovement():
+    return render_template('edit_productmovement.html', title='Movement')
+
 
 @app.route("/view_productmovement")
 @login_required
 def view_productmovement():
     return render_template('view_productmovement.html', title='Movement')
+
+########################Sales######################################
+
+@app.route("/view_sales")
+@login_required
+def view_sales():
+    return render_template('view_sales.html', title='Sales')
