@@ -1,6 +1,30 @@
 {% extends "layout.html" %}
 {% block content %}
-
-    
-
+    <div class="col-md-6 offset-md-3 border pt-2">
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <form method="POST" action="">
+                {{ form.hidden_tag() }} <!--CSRF TOKEN -->
+                    <fieldset class="form-group">
+                        <div class="form-group">
+                            {{ form.name.label(class="form-control-label") }}
+                            {{ form.name(class="form-control form-control-lg") }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.location.label(class="form-control-label") }}
+                            {{ form.location(class="form-control form-control-lg") }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.quantity.label(class="form-control-label") }}
+                            {{ form.quantity(class="form-control form-control-lg") }}
+                        </div>
+                    </fieldset>
+                    <div class="form-group">
+                        {{ form.submit(class="btn btn-success") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock content %}

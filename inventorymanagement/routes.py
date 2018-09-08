@@ -7,7 +7,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route("/")
 @app.route("/anon")
 def anon():
-    return redirect(url_for('anon'))
+    return redirect(url_for('login'))
 
 @app.route("/home")
 def home():
