@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request
 from inventorymanagement import app, db, bcrypt
-from inventorymanagement.forms import RegistrationForm, LoginForm
+from inventorymanagement.forms import RegistrationForm, LoginForm, AddProduct, AddLocation
 from inventorymanagement.models import User, Product, Location, ProductMovement
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -74,10 +74,11 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
-@app.route("/add_product")
+@app.route("/add_product", methods=['GET', 'POST'])
 @login_required
 def add_product():
-    return render_template('add_product.html', title='Product')
+    form = AddProduct()
+    return render_template('add_product.html', title='Product', form=form)
 
 @app.route("/edit_product")
 @login_required
@@ -89,10 +90,11 @@ def edit_product():
 def view_product():
     return render_template('view_product.html', title='Product')
 
-@app.route("/add_location")
+@app.route("/add_location", methods=['GET', 'POST'])
 @login_required
 def add_location():
-    return render_template('add_location.html', title='Location')
+    form = AddLocation()
+    return render_template('add_location.html', title='Location', form=form)
 
 @app.route("/edit_location")
 @login_required

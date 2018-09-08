@@ -2,16 +2,34 @@
 {% block content %}
     <div class="col-md-12">
         <div class="row">
-            <div class="col-md-12 border pt-2">
-                <h2>Inventory Location</h2>
+            <div class="col-md-12">
+                <small class="text-muted">
+                    <a href="{{ url_for('home') }}">Inventory Manager </a>
+                    / Location
+                </small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12 border rounded pt-2">
+                <div class="row">
+                    <div class="col-md-10">
+                        <h2>Inventory Location</h2>
+                    </div>
+                    <div class="col-md-2 float-right">
+                        {% set href = url_for('add_location') %}
+                        <button class="btn btn-success" onclick=" window.location.href='{{ href }}';">Add Location</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <div class="col-md-12">
         <br>
         <div class="row">
-            <div class="col-md-12 table-responsive-sm border pt-2" style="height:600px; overflow: auto;"> 
-                <table class="table table-light table-bordered table-hover">
+            <div class="col-md-12 table-responsive-sm border rounded pt-2" style="height:600px; overflow: auto;"> 
+                <table class="table table-light table-bordered table-hover rounded">
                     <thead>
                         <tr>
                             <th>Product ID</th>

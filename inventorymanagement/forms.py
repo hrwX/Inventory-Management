@@ -29,8 +29,10 @@ class LoginForm(FlaskForm):
 class AddProduct(FlaskForm):
     name = StringField('Product Name', validators=[DataRequired()])
     quantity = IntegerField("Product Quantity", validators=[DataRequired()])
+    submit = SubmitField('Add Product')
 
 class AddLocation(FlaskForm):
     name = StringField('Location Name', validators=[DataRequired()])
+    submit = SubmitField('Add Location')
 
 #class ProductMovement(FlaskForm):
