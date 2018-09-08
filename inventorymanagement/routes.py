@@ -5,6 +5,10 @@ from inventorymanagement.models import User, Product, Location, ProductMovement,
 from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route("/")
+@app.route("/anon")
+def anon():
+    return redirect(url_for('anon'))
+
 @app.route("/home")
 def home():
     return render_template('home.html', title='Home')
@@ -42,10 +46,10 @@ def login():
             flash('Login Unsuccessful', 'danger')
     return render_template('login.html', title='Login', form=form)
 
-@app.route("/logout", methods=['GET', 'POST'])
+@app.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for('home'))
+    return redirect(url_for('anon'))
 
 ########################Products######################################
 
