@@ -32,6 +32,11 @@ class AddProduct(FlaskForm):
     location = IntegerField('Product Location', validators=[DataRequired()])
     submit = SubmitField('Add Product')
 
+    def validate_product(self, product):
+        product = Product.query.filter_by(product_name = product.data).first()
+        if product:
+            raise ValidationError('Product Taken')
+
 class AddLocation(FlaskForm):
     name = StringField('Location Name', validators=[DataRequired()])
     submit = SubmitField('Add Location')
