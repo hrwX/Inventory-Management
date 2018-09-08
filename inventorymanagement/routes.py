@@ -4,37 +4,10 @@ from inventorymanagement.forms import RegistrationForm, LoginForm, AddProduct, A
 from inventorymanagement.models import User, Product, Location, ProductMovement
 from flask_login import login_user, current_user, logout_user, login_required
 
-posts=[
-    {
-        'author': 'Abc',
-        'title': 'Post 1',
-        'content': 'First post content',
-        'data_posted': 'april20, 2018'
-    },
-    {
-        'author': 'Abc',
-        'title': 'Post 2',
-        'content': 'First post content',
-        'data_posted': 'april20, 2018'
-    }, 
-    {
-        'author': 'Abc',
-        'title': 'Post 3',
-        'content': 'First post content',
-        'data_posted': 'april20, 2018'
-    }, 
-    {
-        'author': 'Abc',
-        'title': 'Post 4',
-        'content': 'First post content',
-        'data_posted': 'april20, 2018'
-    }  
-]
-
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html', title='Home', posts=posts)
+    return render_template('home.html', title='Home')
 
 @app.route("/about")
 def about():

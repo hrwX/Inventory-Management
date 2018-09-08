@@ -1,10 +1,96 @@
 {% extends "layout.html" %}
 {% block content %}
-        {% for post in posts: %}
-            <div class="col-md-12">
-                <h2>{{ post.title }}</h2>
-                <p>By:  {{ post.author }} on {{ post.date_posted }}</p>
-                <p>{{ post.content }}</p>
-            </div>
-        {% endfor %}
+    <div class="col-md-12">
+            <div class="row">
+                    <div class="col-lg-3 col-md-6 border rounded pt-2">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        
+                                    </div>
+                                    <div class="col-md-9 text-right">
+                                        <div class="huge">26</div>
+                                        <div>New Tasks!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{{ url_for('view_product') }}">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Products</span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 border rounded pt-2">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                       
+                                    </div>
+                                    <div class="col-md-9 text-right">
+                                        <div class="huge">12</div>
+                                        <div>New Tasks!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{{ url_for('view_location') }}">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Locations</span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 border rounded pt-2">
+                        <div class="panel panel-green border rounded">
+                            <div class="panel-heading">
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        
+                                    </div>
+                                    <div class="col-md-9 text-right">
+                                        <div class="huge">124</div>
+                                        <div>New Orders!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 border rounded pt-2">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        
+                                    </div>
+                                    <div class="col-md-9 text-right">
+                                        <div class="huge">13</div>
+                                        <div>Support Tickets!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+    </div>
 {% endblock content %}
