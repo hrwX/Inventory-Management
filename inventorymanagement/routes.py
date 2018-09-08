@@ -77,7 +77,12 @@ def edit_location():
 @app.route("/view_location")
 @login_required
 def view_location():
-    return render_template('view_location.html', title='Location')    
+    return render_template('view_location.html', title='Location') 
+
+@app.route("/view_sales")
+@login_required
+def view_sales():
+    return render_template('view_sales.html', title='Sales') 
 
 @app.route("/product_movement")
 @login_required
