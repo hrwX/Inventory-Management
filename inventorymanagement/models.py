@@ -50,9 +50,12 @@ class Location(db.Model):
 
 class ProductMovement(db.Model):
     movement_id = db.Column(db.Integer, primary_key=True)
+    product_name = db.Column(db.String, nullable=False)
     product_id = db.Column(db.Integer, nullable=False)
-    from_location = db.Column(db.Integer, nullable=False)
-    to_location = db.Column(db.Integer, nullable=False)
+    from_location_id = db.Column(db.Integer, nullable=False)
+    to_location_id = db.Column(db.Integer, nullable=False)
+    from_location = db.Column(db.String, nullable=False)
+    to_location = db.Column(db.String, nullable=False)
     movement_product_quantity = db.Column(db.Integer, nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
 

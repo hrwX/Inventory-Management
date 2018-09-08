@@ -82,9 +82,14 @@ def view_location():
 @app.route("/view_sales")
 @login_required
 def view_sales():
-    return render_template('view_sales.html', title='Sales') 
+    return render_template('view_sales.html', title='Sales')
 
-@app.route("/product_movement")
+@app.route("/add_productmovement", methods=['GET', 'POST'])
 @login_required
-def product_movement():
-    return render_template('product_movement.html', title='Movement')
+def add_productmovement():
+    return render_template('add_productmovement.html', title='Movement', form=form)
+
+@app.route("/view_productmovement")
+@login_required
+def view_productmovement():
+    return render_template('view_productmovement.html', title='Movement')
