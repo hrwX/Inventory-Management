@@ -38,9 +38,10 @@ class AddProduct(FlaskForm):
     for location in locations:
         row_location = (str(location) + "_location").replace("'", "") #mumbai_location
         print("Forms.py" + row_location)
-        row_quantity = IntegerField(''+ str(location) +' Quantity', validators=[DataRequired()])    
+        row_location = IntegerField(''+ str(location) +' Quantity', validators=[DataRequired()])  
     #quantity = IntegerField('Product Quantity', validators=[DataRequired()])
     #location = IntegerField('Product Location', validators=[DataRequired()])
+
     submit = SubmitField('Add Product')
 
     def validate_product(self, product):
@@ -53,11 +54,16 @@ class AddLocation(FlaskForm):
     submit = SubmitField('Add Location')
 
 class AddProductMovement(FlaskForm):
+    locations = Location.query.all()
+    values = []
+    for location in locations:
+        values.append((location.location_name, location.location_name))
+    #print(values)
     name = StringField('Product Name', validators=[DataRequired()])
     product_id = IntegerField(validators=[DataRequired()])
-    fromLocation = StringField('From Location', validators=[DataRequired()])
+    fromLocation = SelectField('From Location', choices=values, validators=[DataRequired()])
     fromLocationId = IntegerField(validators=[DataRequired()])
-    toLocation = StringField('To Location', validators=[DataRequired()])
+    toLocation = SelectField('To Location', choices=values, validators=[DataRequired()])
     toLocationId = IntegerField(validators=[DataRequired()])
     quantity = IntegerField('Product Quantity', validators=[DataRequired()])
     timestamp = DateTimeField(validators=[DataRequired()])

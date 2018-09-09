@@ -58,13 +58,16 @@ def logout():
 @app.route("/add_product", methods=['GET', 'POST'])
 @login_required
 def add_product():
-    form = AddProduct()
-    querries = Location.query.all()
+    queries = Location.query.all()
     locations = []
-    for query in querries:
-        print(query)
+    values = []
+    for query in queries:
         locations.append((str(query) + "_location").replace("'", "")) #mumbai_location
-    #print("Route.py" + locations)
+    for location in locations:
+        values.append(location)
+
+    form = AddProduct()
+    #print(form.Mumbai_location.data)
     #product = Product(product_name=form.product_name.data, product_user_id=current_user)
     return render_template('add_product.html', title='Product', form=form, locations=locations)
 
