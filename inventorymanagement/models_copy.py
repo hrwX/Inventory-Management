@@ -33,6 +33,8 @@ class Product(db.Model):
     product_name = db.Column(db.String(20), nullable=False)
     product_user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
     product_quantity = db.Column(db.Integer, nullable=False)
+    #location = db.relationship('Location', backref='product', lazy=True)
+    #locationinventory = db.relationship('LocationInventory', backref='product', lazy=True)
 
     def __repr__(self):
         return f"Product('{self.product_name}', '{self.product_user_id}', '{self.product_quantity}')"
@@ -40,12 +42,16 @@ class Product(db.Model):
 class Location(db.Model):
     location_id = db.Column(db.Integer, primary_key=True)
     location_name = db.Column(db.String(20), nullable=False)
+    #location_product_id = db.Column(db.Integer, db.ForeignKey('product.product_id'), nullable=False)
+    #location_product_quantity = db.Column(db.Integer, nullable=False)
+    #location_product_user_id = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
-        return f"Location('{self.location_name}')"
+        return f"Location('{self.location_name}', '{self.location_product_id}', '{self.location_product_quantity}')"
 
 class LocationInventory(db.Model):
     locationinventory_id = db.Column(db.Integer, primary_key=True)
+    #locationinventory_product_id = db.Column(db.Integer, db.ForeignKey('product.product_id'), nullable=False)
     locationinventory_product_name = db.Column(db.String(20), nullable=False)
 
 class ProductMovement(db.Model):

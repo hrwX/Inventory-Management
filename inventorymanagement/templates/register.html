@@ -63,6 +63,10 @@
                                 {{ form.confirm_password(class="form-control form-control-lg") }}
                             {% endif %}
                         </div>
+                        <div class="form-group">
+                            {{ form.yes_no.label(class="form-control-label") }}
+                            {{ form.yes_no(class="btn dropdown-toggle") }}
+                        </div>
                     </fieldset>
                     <div class="form-group">
                         {{ form.submit(class="btn btn-success") }}
