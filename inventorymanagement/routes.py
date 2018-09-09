@@ -17,6 +17,8 @@ def home():
 def about():
     return render_template('about.html', title="About")
 
+########################Users######################################
+
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -57,7 +59,14 @@ def logout():
 @login_required
 def add_product():
     form = AddProduct()
-    return render_template('add_product.html', title='Product', form=form)
+    querries = Location.query.all()
+    locations = []
+    for query in querries:
+        print(query)
+        locations.append((str(query) + "_location").replace("'", "")) #mumbai_location
+    #print("Route.py" + locations)
+    #product = Product(product_name=form.product_name.data, product_user_id=current_user)
+    return render_template('add_product.html', title='Product', form=form, locations=locations)
 
 @app.route("/edit_product")
 @login_required

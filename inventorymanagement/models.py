@@ -42,7 +42,7 @@ class Location(db.Model):
     location_name = db.Column(db.String(20), nullable=False)
 
     def __repr__(self):
-        return f"Location('{self.location_name}')"
+        return f"'{self.location_name}'"
 
 class LocationInventory(db.Model):
     locationinventory_id = db.Column(db.Integer, primary_key=True)

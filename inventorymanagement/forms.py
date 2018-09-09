@@ -1,14 +1,19 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, DateTimeField, SelectField
+from inventorymanagement import app, db
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, DateTimeField, SelectField, Label
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from inventorymanagement.models import User
+from inventorymanagement.models import User, Product, Location, ProductMovement, LocationInventory
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
-    yes_no = SelectField('Select option', choices=[('yes', 'yes'), ('no', 'no'), ('cant say', 'cant say')])
+    #location = str(Location.query.all())
+    #print(location)
+    #loc = [('one', 'one'), ('two', 'two')]
+    #loc = ([('Mumbai', 'Mumbai'), ('Bangalore', 'Bangalore'), ('Delhi', 'Delhi'), ('Chennai', 'Chennai'), ('Kolkata', 'Kolkata')])
+    #yes_no = SelectField('Select option', choices=loc)
     submit = SubmitField('Sign Up')
     
     def validate_username(self, username):
@@ -29,8 +34,13 @@ class LoginForm(FlaskForm):
 
 class AddProduct(FlaskForm):
     name = StringField('Product Name', validators=[DataRequired()])
-    quantity = IntegerField('Product Quantity', validators=[DataRequired()])
-    location = IntegerField('Product Location', validators=[DataRequired()])
+    locations = Location.query.all()
+    for location in locations:
+        row_location = (str(location) + "_location").replace("'", "") #mumbai_location
+        print("Forms.py" + row_location)
+        row_quantity = IntegerField(''+ str(location) +' Quantity', validators=[DataRequired()])    
+    #quantity = IntegerField('Product Quantity', validators=[DataRequired()])
+    #location = IntegerField('Product Location', validators=[DataRequired()])
     submit = SubmitField('Add Product')
 
     def validate_product(self, product):
