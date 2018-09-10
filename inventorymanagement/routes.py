@@ -64,7 +64,7 @@ def add_product():
     locations = []
     for query in queries:
         locations.append((str(query) + "_location").replace("'", "")) #mumbai_location
-    form = AddProduct()
+    form = AddProduct(locations)
     form.add(locations)
     string = "product_name=form.name.data,"
     for query in queries:
@@ -76,7 +76,7 @@ def add_product():
     if form.validate_on_submit():
         print("In IF")
         for location in locations:
-            print(form.name.data)   
+            print(form.name.data)
    
     #product = Product(string)
     return render_template('add_product.html', title='Product', form=form, locations=locations)

@@ -30,11 +30,11 @@ class LoginForm(FlaskForm):
 class AddProduct(FlaskForm):
     name = StringField('Product Name', validators=[DataRequired()])
     print(name)
-    def add(self, locations): #initializing dynamic fields
+    #Mumbai_location = StringField('Mumbai_location', validators=[DataRequired()])    
+    def add(self, locations): #initializing dynamic fields      
         for location in locations:
-            location = IntegerField(location, validators=[DataRequired()])
-            print(location) 
-
+            location = StringField(location, validators=[DataRequired()])
+            print(location)
     submit = SubmitField('Add Product')
 
     def validate_product(self, product):
