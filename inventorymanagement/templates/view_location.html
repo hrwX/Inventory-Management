@@ -34,16 +34,13 @@
                         <div class="row">
                             <div class="col-md-12 border rounded pt-2" style=" height:50px;">
                                 <div class="row">
-                                    <div class="col-md-3 border-left pt-2"> 
+                                    <div class="col-md-4 border-left pt-2"> 
                                         Location Id
                                     </div>
-                                    <div class="col-md-3 border-left pt-2">
+                                    <div class="col-md-4 border-left pt-2">
                                         Location Name
                                     </div>
-                                    <div class="col-md-3 border-left pt-2">
-                                        Total Products
-                                    </div>
-                                    <div class="col-md-3 border-left pt-2">
+                                    <div class="col-md-4 border-left pt-2">
                                         Edit
                                     </div>
                                 </div>
@@ -52,20 +49,17 @@
                         <br>
                     </div>
                     <div class="col-md-12" style="height:600px; overflow: auto;">
-                        {% for i in range(100) %}
+                        {% for location in locations %}
                             <div class="row">
                                 <div class="col-md-12 border rounded pt-2" style=" height:50px;">
                                     <div class="row">
-                                        <div class="col-md-3 border-left pt-2"> 
-                                            Location Id
+                                        <div class="col-md-4 border-left pt-2"> 
+                                            {{ location.location_id }}
                                         </div>
-                                        <div class="col-md-3 border-left pt-2">
-                                            Location Name
+                                        <div class="col-md-4 border-left pt-2">
+                                            {{ location.location_name }}
                                         </div>
-                                        <div class="col-md-3 border-left pt-2">
-                                            Total Products
-                                        </div>
-                                        <div class="col-md-3 border-left pt-2">
+                                        <div class="col-md-4 border-left pt-2">
                                                 <a href="{{ url_for('edit_location') }}">Edit</a>
                                         </div>
                                     </div>

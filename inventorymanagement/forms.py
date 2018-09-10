@@ -29,12 +29,11 @@ class LoginForm(FlaskForm):
 
 class AddProduct(FlaskForm):
     name = StringField('Product Name', validators=[DataRequired()])
-    print(name)
-    #Mumbai_location = StringField('Mumbai_location', validators=[DataRequired()])    
-    def add(self, locations): #initializing dynamic fields      
-        for location in locations:
-            location = StringField(location, validators=[DataRequired()])
-            print(location)
+        
+#    def add(self, locations): #initializing dynamic fields      
+#        for location in locations:
+#            location = StringField(location, validators=[DataRequired()])
+#            print(location)
     submit = SubmitField('Add Product')
 
     def validate_product(self, product):
@@ -45,6 +44,10 @@ class AddProduct(FlaskForm):
 class AddLocation(FlaskForm):
     name = StringField('Location Name', validators=[DataRequired()])
     submit = SubmitField('Add Location')
+    def validate_location(self, location):
+        location = Location.query.filter_by(location_name = location.data).first()
+        if location:
+            raise ValidationError('Location Present')
 
 class AddProductMovement(FlaskForm):
     locations = Location.query.all()

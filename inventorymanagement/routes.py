@@ -64,8 +64,9 @@ def add_product():
     locations = []
     for query in queries:
         locations.append((str(query) + "_location").replace("'", "")) #mumbai_location
-    form = AddProduct(locations)
-    form.add(locations)
+    print(locations)
+    form = AddProduct()
+    
     string = "product_name=form.name.data,"
     for query in queries:
         string_join = ""+ (str(query) + "_location").replace("'", "") +"=form."+ (str(query) + "_location").replace("'", "") +".data,"
@@ -98,6 +99,12 @@ def view_product():
 @login_required
 def add_location():
     form = AddLocation()
+    if form.validate_on_submit():
+        location = Location(location_name=form.name.data)
+        db.session.add(location)
+        db.session.commit()
+        flash('Location Added')
+        return redirect(url_for('view_location'))
     return render_template('add_location.html', title='Location', form=form)
 
 @app.route("/edit_location")
@@ -109,7 +116,8 @@ def edit_location():
 @app.route("/view_location")
 @login_required
 def view_location():
-    return render_template('view_location.html', title='Location') 
+    locations = Location.query.all()
+    return render_template('view_location.html', title='Location', locations=locations) 
 
 ########################ProductMovements######################################
 
