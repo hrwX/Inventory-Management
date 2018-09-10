@@ -73,15 +73,11 @@ def add_product():
     string_join = "product_user_id=current_user"
     string = string + string_join
 
-
-
     if form.validate_on_submit():
         print("In IF")
         for location in locations:
             print(form.name.data)   
-            print(form.Mumbai_location.data)
-
-    
+   
     #product = Product(string)
     return render_template('add_product.html', title='Product', form=form, locations=locations)
 
