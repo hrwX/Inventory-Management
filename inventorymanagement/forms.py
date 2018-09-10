@@ -9,11 +9,6 @@ class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
-    #location = str(Location.query.all())
-    #print(location)
-    #loc = [('one', 'one'), ('two', 'two')]
-    #loc = ([('Mumbai', 'Mumbai'), ('Bangalore', 'Bangalore'), ('Delhi', 'Delhi'), ('Chennai', 'Chennai'), ('Kolkata', 'Kolkata')])
-    #yes_no = SelectField('Select option', choices=loc)
     submit = SubmitField('Sign Up')
     
     def validate_username(self, username):
@@ -34,13 +29,11 @@ class LoginForm(FlaskForm):
 
 class AddProduct(FlaskForm):
     name = StringField('Product Name', validators=[DataRequired()])
-    locations = Location.query.all()
-    for location in locations:
-        row_location = (str(location) + "_location").replace("'", "") #mumbai_location
-        print("Forms.py" + row_location)
-        row_location = IntegerField(''+ str(location) +' Quantity', validators=[DataRequired()])  
-    #quantity = IntegerField('Product Quantity', validators=[DataRequired()])
-    #location = IntegerField('Product Location', validators=[DataRequired()])
+    print(name)
+    def add(self, locations): #initializing dynamic fields
+        for location in locations:
+            location = IntegerField(location, validators=[DataRequired()])
+            print(location) 
 
     submit = SubmitField('Add Product')
 
@@ -58,13 +51,17 @@ class AddProductMovement(FlaskForm):
     values = []
     for location in locations:
         values.append((location.location_name, location.location_name))
-    #print(values)
+    
     name = StringField('Product Name', validators=[DataRequired()])
     product_id = IntegerField(validators=[DataRequired()])
+    
     fromLocation = SelectField('From Location', choices=values, validators=[DataRequired()])
     fromLocationId = IntegerField(validators=[DataRequired()])
+    
     toLocation = SelectField('To Location', choices=values, validators=[DataRequired()])
     toLocationId = IntegerField(validators=[DataRequired()])
+    
     quantity = IntegerField('Product Quantity', validators=[DataRequired()])
+    
     timestamp = DateTimeField(validators=[DataRequired()])
     submit = SubmitField('Move Product')

@@ -3,6 +3,8 @@ from inventorymanagement import app, db, bcrypt
 from inventorymanagement.forms import RegistrationForm, LoginForm, AddProduct, AddLocation, AddProductMovement
 from inventorymanagement.models import User, Product, Location, ProductMovement, LocationInventory
 from flask_login import login_user, current_user, logout_user, login_required
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, DateTimeField, SelectField, Label
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 
 @app.route("/")
 @app.route("/anon")
@@ -60,15 +62,27 @@ def logout():
 def add_product():
     queries = Location.query.all()
     locations = []
-    values = []
     for query in queries:
         locations.append((str(query) + "_location").replace("'", "")) #mumbai_location
-    for location in locations:
-        values.append(location)
-
     form = AddProduct()
-    #print(form.Mumbai_location.data)
-    #product = Product(product_name=form.product_name.data, product_user_id=current_user)
+    form.add(locations)
+    string = "product_name=form.name.data,"
+    for query in queries:
+        string_join = ""+ (str(query) + "_location").replace("'", "") +"=form."+ (str(query) + "_location").replace("'", "") +".data,"
+        string = string + string_join
+    string_join = "product_user_id=current_user"
+    string = string + string_join
+
+
+
+    if form.validate_on_submit():
+        print("In IF")
+        for location in locations:
+            print(form.name.data)   
+            print(form.Mumbai_location.data)
+
+    
+    #product = Product(string)
     return render_template('add_product.html', title='Product', form=form, locations=locations)
 
 @app.route("/edit_product")
