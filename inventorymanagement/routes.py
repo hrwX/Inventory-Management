@@ -1,3 +1,4 @@
+import datetime
 from flask import render_template, url_for, flash, redirect, request
 from inventorymanagement import app, db, bcrypt
 from inventorymanagement.forms import RegistrationForm, LoginForm, AddProduct, AddLocation, AddProductMovement
@@ -137,8 +138,9 @@ def view_location():
 @app.route("/add_productmovement", methods=['GET', 'POST'])
 @login_required
 def add_productmovement():
+    time = datetime.date.today()
     form = AddProductMovement()
-    return render_template('add_productmovement.html', title='Movement', form=form)
+    return render_template('add_productmovement.html', title='Movement', form=form, time=time)
 
 @app.route("/edit_productmovement")
 @login_required
