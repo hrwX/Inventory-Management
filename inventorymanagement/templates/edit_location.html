@@ -8,12 +8,12 @@
                 {{ form.hidden_tag() }} <!--CSRF TOKEN -->
                     <fieldset class="form-group">
                         <div class="form-group">
-                            {{ form.name.label(class="form-control-label") }}
-                            {{ form.name(class="form-control form-control-lg") }}
+                            <label class="form-control-label" for="name">Edit Location Name</label>
+                            <input class="form-control form-control-lg" id="name" name="name" required type="text" value="{{ location.location_name }}">
                         </div>
                     </fieldset>
                     <div class="form-group">
-                        {{ form.submit(class="btn btn-success") }}
+                        <input type="submit" class="btn btn-success" value="Edit Location">
                     </div>
                 </form>
             </div>

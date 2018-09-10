@@ -4,6 +4,8 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField, Integ
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from inventorymanagement.models import User, Product, Location, ProductMovement, LocationInventory
 
+########################Users######################################
+
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -27,6 +29,8 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
 
+########################Products######################################
+
 class AddProduct(FlaskForm):
     name = StringField('Product Name', validators=[DataRequired()])
         
@@ -41,6 +45,8 @@ class AddProduct(FlaskForm):
         if product:
             raise ValidationError('Product Taken')
 
+########################Locations######################################
+
 class AddLocation(FlaskForm):
     name = StringField('Location Name', validators=[DataRequired()])
     submit = SubmitField('Add Location')
@@ -48,6 +54,8 @@ class AddLocation(FlaskForm):
         location = Location.query.filter_by(location_name = location.data).first()
         if location:
             raise ValidationError('Location Present')
+
+########################ProductMovements######################################
 
 class AddProductMovement(FlaskForm):
     locations = Location.query.all()

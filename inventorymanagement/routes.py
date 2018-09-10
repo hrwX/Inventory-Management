@@ -107,11 +107,24 @@ def add_location():
         return redirect(url_for('view_location'))
     return render_template('add_location.html', title='Location', form=form)
 
-@app.route("/edit_location")
+@app.route("/edit_location?<int:location_id>", methods=['GET', 'POST'])
 @login_required
-def edit_location():
+def edit_location(location_id):
     form = AddLocation()
-    return render_template('edit_location.html', title='Location', form=form)
+    location = Location.query.get(location_id)
+    print(location.location_id)
+    print(form.name.data)
+    if form.validate_on_submit():
+        location.location_id = location.location_id
+        location.location_name = form.name.data
+        print(location.location_id)
+        print(location.location_name)
+        db.session.commit()
+        flash('Updated!', 'success')
+        return redirect(url_for('view_location'))
+    elif request.method == 'GET':
+        form.name.data = location.location_name
+    return render_template('edit_location.html', title='Location', form=form, location=location)
 
 @app.route("/view_location")
 @login_required
