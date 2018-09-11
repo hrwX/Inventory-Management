@@ -65,13 +65,15 @@ def add_product():
     locations = []
     
     for query in queries:
-        locations.append((str(query) + "_location").replace("'", "")) #mumbai_location
+        locations.append(str(query).replace("'", "")) #mumbai_location
     
     form = AddProduct()
-    form.add(locations)
+
     input_values = request.form.getlist('places[]')
     for input_value in input_values:
         print(input_value)
+    location_values = dict(zip(locations, input_values))
+    print(location_values)
     string = "product_name=form.name.data,"
     for query in queries:
         string_join = ""+ (str(query) + "_location").replace("'", "") +"=form."+ (str(query) + "_location").replace("'", "") +".data,"
