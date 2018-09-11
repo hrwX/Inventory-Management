@@ -63,11 +63,15 @@ def logout():
 def add_product():
     queries = Location.query.all()
     locations = []
+    
     for query in queries:
         locations.append((str(query) + "_location").replace("'", "")) #mumbai_location
-    print(locations)
-    form = AddProduct()
     
+    form = AddProduct()
+    form.add(locations)
+    input_values = request.form.getlist('places[]')
+    for input_value in input_values:
+        print(input_value)
     string = "product_name=form.name.data,"
     for query in queries:
         string_join = ""+ (str(query) + "_location").replace("'", "") +"=form."+ (str(query) + "_location").replace("'", "") +".data,"
