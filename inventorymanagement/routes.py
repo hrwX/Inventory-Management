@@ -1,8 +1,8 @@
 import datetime
 from flask import render_template, url_for, flash, redirect, request
-from inventorymanagement import app, db, bcrypt
+from inventorymanagement import app, bcrypt, mysql, db
 from inventorymanagement.forms import RegistrationForm, LoginForm, AddProduct, AddLocation, AddProductMovement
-from inventorymanagement.models import User, Product, Location, ProductMovement, LocationInventory
+from inventorymanagement.models import User
 from flask_login import login_user, current_user, logout_user, login_required
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, DateTimeField, SelectField, Label
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
@@ -61,7 +61,7 @@ def logout():
 @app.route("/add_product", methods=['GET', 'POST'])
 @login_required
 def add_product():
-    queries = Location.query.all()
+    #queries = Location.query.all()
     locations = []
     
     for query in queries:
@@ -166,3 +166,8 @@ def view_productmovement():
 @login_required
 def view_sales():
     return render_template('view_sales.html', title='Sales')
+
+@app.route("/bcrypt")
+def bcrypter():
+    hashed_password = bcrypt.generate_password_hash('123456').decode('utf-8')
+    return render_template('bcrypt.html', title='Movement', hashed_password=hashed_password)

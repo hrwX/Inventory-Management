@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
-from inventorymanagement import app, db
+from inventorymanagement import app, mysql, db
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, DateTimeField, SelectField, Label
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from inventorymanagement.models import User, Product, Location, ProductMovement, LocationInventory
+from inventorymanagement.models import User
 
 ########################Users######################################
 
@@ -58,7 +58,7 @@ class AddLocation(FlaskForm):
 ########################ProductMovements######################################
 
 class AddProductMovement(FlaskForm):
-    locations = Location.query.all()
+    locations = ''#Location.query.all()
     values = []
     for location in locations:
         values.append((location.location_name, location.location_name))
