@@ -49,35 +49,27 @@
                         <br>
                     </div>
                     <div class="col-md-12" style="height:600px; overflow: auto;">
-                        {% for location in locations %}
-                            <div class="row">
-                                <div class="col-md-12 border rounded pt-2" style=" height:50px;">
-                                    <div class="row">
-                                        <div class="col-md-4 border-left pt-2"> 
-                                            {{ location.location_id }}
-                                        </div>
-                                        <div class="col-md-4 border-left pt-2">
-                                            {{ location.location_name }}
-                                        </div>
-                                        <div class="col-md-4 border-left pt-2">
-                                                <a href="{{ url_for('edit_location', location_id=location.location_id) }}">Edit</a>
-                                        </div>
+                    {% for location in locations %}
+                        <div class="row">
+                            <div class="col-md-12 border rounded pt-2" style=" height:50px;">
+                                <div class="row">
+                                    <div class="col-md-4 border-left pt-2"> 
+                                        {{ location[0] }}
+                                    </div>
+                                    <div class="col-md-4 border-left pt-2">
+                                        {{ location[1] }}
+                                    </div>
+                                    <div class="col-md-4 border-left pt-2">
+                                            <a href="{{ url_for('edit_location', location_id=location[0]) }}">Edit</a>
                                     </div>
                                 </div>
                             </div>
-                        {% endfor %}
+                        </div>
+                    {% endfor %}  
                     </div>
                 </div>
             </div>
         </div>
         <br>
     </div>
-    <script>
-        jQuery(document).ready(function($) {
-            $(".clickable-row").click(function() {
-                window.location = $(this).data("href");
-                console.log('A')
-            });
-        });
-    </script>
 {% endblock content %}

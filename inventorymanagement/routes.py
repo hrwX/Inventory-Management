@@ -108,9 +108,18 @@ def view_product():
 def add_location():
     form = AddLocation()
     if form.validate_on_submit():
-        location = Location(location_name=form.name.data)
-        db.session.add(location)
-        db.session.commit()
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO `location`(`location_name`) VALUES ('"+ form.name.data +"')")
+        conn.commit()
+        location = (form.name.data).replace(" ","")
+        print(location)
+        print("ALTER TABLE locationinventory ADD COLUMN "+ form.name.data +" INTEGER DEFAULT 0")
+        cursor.execute("ALTER TABLE locationinventory ADD COLUMN "+ (form.name.data).replace(" ", "_") +" INTEGER DEFAULT 0")
+        conn.commit()
+        conn.close()
+        print("INSERT INTO `location`(`location_name`) VALUES ('"+ form.name.data +"')")
+        print("ALTER TABLE locationinventory ADD COLUMN "+ form.name.data +" INTEGER DEFAULT 0")
         flash('Location Added')
         return redirect(url_for('view_location'))
     return render_template('add_location.html', title='Location', form=form)
@@ -119,25 +128,27 @@ def add_location():
 @login_required
 def edit_location(location_id):
     form = AddLocation()
-    location = Location.query.get(location_id)
-    print(location.location_id)
-    print(form.name.data)
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM location WHERE location_id='"+ str(location_id) +"'")
+    conn.commit()
+    location = cursor.fetchone()
     if form.validate_on_submit():
-        location.location_id = location.location_id
-        location.location_name = form.name.data
-        print(location.location_id)
-        print(location.location_name)
-        db.session.commit()
+        cursor.execute("UPDATE location SET location_name='"+ form.name.data +"' WHERE location_id='"+ str(location_id) +"'")
+        print(cursor)
         flash('Updated!', 'success')
         return redirect(url_for('view_location'))
     elif request.method == 'GET':
-        form.name.data = location.location_name
+        form.name.data = location_id
     return render_template('edit_location.html', title='Location', form=form, location=location)
 
 @app.route("/view_location")
 @login_required
 def view_location():
-    locations = Location.query.all()
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM location")
+    locations = cursor.fetchall()
     return render_template('view_location.html', title='Location', locations=locations) 
 
 ########################ProductMovements######################################
