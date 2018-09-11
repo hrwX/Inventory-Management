@@ -70,10 +70,12 @@ def add_product():
     form = AddProduct()
 
     input_values = request.form.getlist('places[]')
-    for input_value in input_values:
-        print(input_value)
+    #for input_value in input_values:
+    #    print(input_value)
+    
     location_values = dict(zip(locations, input_values))
     print(location_values)
+    
     string = "product_name=form.name.data,"
     for query in queries:
         string_join = ""+ (str(query) + "_location").replace("'", "") +"=form."+ (str(query) + "_location").replace("'", "") +".data,"
@@ -82,7 +84,6 @@ def add_product():
     string = string + string_join
 
     if form.validate_on_submit():
-        print("In IF")
         for location in locations:
             print(form.name.data)
    
