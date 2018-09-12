@@ -6,32 +6,6 @@
             <div class="col-md-12">
                 <form method="POST" action="">
                 {{ form.hidden_tag() }} <!--CSRF TOKEN -->
-                    <fieldset class="form-group">
-                        <div class="form-group">
-                            <label class="form-control-label">Product Name</label>
-                            <input name="name" id="name" class="form-control form-control-lg" value="{{ product_name[0] }}">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-control-label">From Location</label>
-                            <input name="fromLocation" id="fromLocation" class="form-control form-control-lg" value="">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-control-label">To Location</label>
-                            <input name="toLocation" id="toLocation" class="form-control form-control-lg" value="">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-control-label">Quantity</label>
-                            <input name="quantity" id="quantity" class="form-control form-control-lg" value="">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-control-label">Date</label>
-                            <input name="timestamp" id="timestamp" class="form-control form-control-lg" value="{{ time }}" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-control-label">Email</label>
-                            <input name="email" id="email" class="form-control form-control-lg" value="{{ email }}" disabled>
-                        </div>
-                    </fieldset>
                     <div class="form-group">
                         <input name="submit" class="btn btn-success navbar-dark bg-dark" value="Edit">
                     </div>

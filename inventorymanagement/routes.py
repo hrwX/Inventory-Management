@@ -184,7 +184,8 @@ def product_info(product_id):
     quantities = []
     for inventory in inventory:
         quantities.append(inventory)
-    quantities.pop(0)
+    for count in range(2):
+        quantities.pop(0)
     return render_template('product_info.html', title='Product', form=form, values=values, locations=locations, quantities=quantities, ranges=ranges)
 
 
@@ -265,8 +266,13 @@ def add_productmovement(product_id):
     time = datetime.date.today()
     ranges = len(locations)
     cursor.execute("SELECT * FROM locationinventory WHERE locationinventory_id="+ str(product_id) +"")
-    quantities = cursor.fetchall()
-    print(form.validate_on_submit())
+    inventory = cursor.fetchone()
+    quantities = []
+    for inventory in inventory:
+        quantities.append(inventory)
+    for count in range(2):
+        quantities.pop(0)
+    print(quantities[5])
     if form.validate_on_submit():
         product_name = form.name.data
         from_location = request.values.get('fromLocation')
@@ -274,7 +280,6 @@ def add_productmovement(product_id):
         quantity = request.values.get('quantity')
         date = request.values.get('timestamp')
         email = request.values.get('email')
-        print(product_name,from_location,to_location,quantity,date,email)
         query = "SELECT "+ str(from_location) +","+ str(to_location) +" FROM locationinventory WHERE locationinventory_id="+ str(product_id) +""
         cursor.execute(query)
         value = cursor.fetchone()
@@ -293,13 +298,16 @@ def add_productmovement(product_id):
         return redirect(url_for('view_location'))
     return render_template('add_productmovement.html', title='Movement', form=form, time=time, email=current_user.email, product_name=product_name[0], locations=locations, quantities=quantities, ranges=ranges)
 
-@app.route("/edit_productmovement")
+@app.route("/edit_productmovement?<int:productmovement_id>")
 @login_required
-def edit_productmovement():
+def edit_productmovement(productmovement_id):
     conn = mysql.connect()
     cursor = conn.cursor()
-
-    return render_template('edit_productmovement.html', title='Movement', form=form)
+    cursor.execute("SELECT * FROM productmovement WHERE productmovement_id="+ str(productmovement_id) +"")
+    query = cursor.fetchone()
+    print(query)
+    return redirect(url_for('view_productmovement'))
+    return render_template('', title='Movement', form=form)
 
 @app.route("/view_productmovement")
 @login_required

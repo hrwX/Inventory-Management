@@ -16,9 +16,9 @@
                         </div>    
                         <div class="form-group" style="height:100px;overflow: auto;">
                             {% for index in range(ranges) %}
-                                {% if quantities[0][index] != 0%}
+                                {% if quantities[index] != 0 %}
                                     <div class="form-group">
-                                        <input class="form-control form-control-md" value="Quantity at {{ locations[index][0] }} location is {{ quantities[0][index] }}" disabled>
+                                        <input class="form-control form-control-md" value="Quantity at {{ locations[index][0] }} location is {{ quantities[index] }}" disabled>
                                     </div>
                                 {% endif %}
                             {% endfor %}
@@ -28,7 +28,7 @@
                             <select name="fromLocation" id="fromLocation" class="form-control form-control-lg">
                             {% for index in range(ranges) %}
                                 {% if quantities[0][index] != 0%}
-                                    <option value="{{ locations[index][0] }}" data-qty="{{ quantities[0][index] }}">{{ locations[index][0] }}</option>
+                                    <option value="{{ locations[index][0] }}" data-qty="{{ quantities[index] }}">{{ locations[index][0] }}</option>
                                 {% endif %}
                             {% endfor %}
                             </select>
