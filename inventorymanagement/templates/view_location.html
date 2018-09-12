@@ -34,13 +34,13 @@
                         <div class="row">
                             <div class="col-md-12 border rounded pt-2" style=" height:50px;">
                                 <div class="row">
-                                    <div class="col-md-4 border-left pt-2"> 
+                                    <div class="col border-left pt-2"> 
                                         Location Id
                                     </div>
-                                    <div class="col-md-4 border-left pt-2">
+                                    <div class="col border-left pt-2">
                                         Location Name
                                     </div>
-                                    <div class="col-md-4 border-left pt-2">
+                                    <div class="col border-left pt-2">
                                         Edit
                                     </div>
                                 </div>
@@ -53,13 +53,13 @@
                         <div class="row">
                             <div class="col-md-12 border rounded pt-2" style=" height:50px;">
                                 <div class="row">
-                                    <div class="col-md-4 border-left pt-2"> 
+                                    <div class="col border-left pt-2"> 
                                         {{ location[0] }}
                                     </div>
-                                    <div class="col-md-4 border-left pt-2">
+                                    <div class="col border-left pt-2">
                                         {{ location[1] }}
                                     </div>
-                                    <div class="col-md-4 border-left pt-2">
+                                    <div class="col border-left pt-2">
                                             <a href="{{ url_for('edit_location', location_id=location[0]) }}">Edit</a>
                                     </div>
                                 </div>
