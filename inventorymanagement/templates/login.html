@@ -37,14 +37,11 @@
                         </div>
                         <div class="form-check">
                             {{ form.remember(class="form-check-input") }}        
-                            {{ form.remember.label(class="form-check-label navbar-dark bg-dark") }}        
+                            {{ form.remember.label(class="form-check-label") }}        
                         </div>
                     </fieldset>
                     <div class="form-group">
-                        {{ form.submit(class="btn btn-success") }}
-                        <small class="text-muted ml-2">
-                            <a href="#">Forgot Password?</a>
-                        </small>
+                        {{ form.submit(class="btn btn-success navbar-dark bg-dark") }}
                     </div>
                 </form>
             </div>
