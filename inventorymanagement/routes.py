@@ -150,6 +150,31 @@ def edit_product(product_id):
         return redirect(url_for('view_product'))
     return render_template('edit_product.html', title='Product', form=form, values=values, locations=locations, quantities=quantities, ranges=ranges)
 
+@app.route("/product_info?<int:product_id>", methods=['GET', 'POST'])
+def product_info(product_id):
+    form = AddProduct()
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    values = "Select * from product WHERE product_id="+ str(product_id) +""
+    values = cursor.execute(values)
+    values = cursor.fetchone()
+    locations = "SELECT location_name FROM location"
+    locations = cursor.execute(locations)
+    locations = cursor.fetchall()
+    places = []
+    for location in locations:
+        places.append(location[0])
+    inventory = "Select * from locationinventory WHERE locationinventory_id="+ str(product_id) +""
+    inventory = cursor.execute(inventory)
+    inventory = cursor.fetchone()
+    ranges = len(locations)
+    quantities = []
+    for inventory in inventory:
+        quantities.append(inventory)
+    quantities.pop(0)
+    return render_template('product_info.html', title='Product', form=form, values=values, locations=locations, quantities=quantities, ranges=ranges)
+
+
 @app.route("/view_product")
 @login_required
 def view_product():
@@ -170,7 +195,7 @@ def add_location():
     if form.validate_on_submit():
         conn = mysql.connect()
         cursor = conn.cursor()
-        count = cursor.execute("SELECT COUNT(*) FROM location WHERE location_name='"+ form.name.data +"'")
+        count = cursor.execute("SELECT location_name FROM location WHERE location_name='"+ (form.name.data).replace(" ", "_") +"'")
         if count == 0:
             cursor.execute("INSERT INTO `location`(`location_name`) VALUES ('"+ (form.name.data).replace(" ", "_") +"')")
             conn.commit()

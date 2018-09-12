@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="col-md-6 offset-md-3 border pt-2">
+        <div class="row">
+            <div class="col-md-12">
+                {{ form.hidden_tag() }} <!--CSRF TOKEN -->
+                    <fieldset class="form-group">
+                        <div class="form-group">
+                            <label class="form-control-label">Product Name</label>
+                            <input class="form-control form=control-lg" name="name" id="name" value="{{ values[1] }}" disabled>
+                        </div>
+                    </fieldset>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-control-label">Locations</label>
+            </div>
+            <div class="col-md-12" style="height:400px; overflow: auto;">
+                    <fieldset>
+                        {% for index in range(ranges) %}
+                            <div class="form-group">
+                                <label class="form-control-label">{{ locations[index][0] }}</label>
+                                <input id="places[]" name="places[]" class="form-control form-control-lg" value="{{ quantities[index] }}" disabled>
+                            </div>
+                        {% endfor %}
+                    </fieldset>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <a class="btn btn-success" href="{{ url_for('view_product') }}">Back to Products</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
