@@ -305,7 +305,19 @@ def edit_productmovement(productmovement_id):
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM productmovement WHERE productmovement_id="+ str(productmovement_id) +"")
     query = cursor.fetchone()
-    print(query)
+    product_id = query[1]
+    from_location = query[3]
+    to_location = query[4]
+    quantity = query[5]
+    cursor.execute("SELECT "+ str(from_location) +","+ str(to_location) +" FROM locationinventory WHERE locationinventory_id="+ str(product_id) +"")
+    inventory = cursor.fetchone()
+    print(inventory)
+    from_location_qty = inventory[0] + quantity
+    to_location_qty = inventory[1] - quantity
+    cursor.execute("UPDATE locationinventory SET "+ str(from_location) +"='"+ str(from_location_qty) +"', "+ str(to_location) +"='"+ str(to_location_qty) +"' WHERE locationinventory_id="+ str(product_id) +"")
+    conn.commit()
+    cursor.execute("DELETE FROM productmovement WHERE productmovement_id="+ str(productmovement_id) +"")
+    conn.commit()
     return redirect(url_for('view_productmovement'))
     return render_template('', title='Movement', form=form)
 
@@ -317,12 +329,4 @@ def view_productmovement():
     cursor.execute("SELECT * FROM productmovement WHERE user_id="+ str(current_user.user_id) +"")
     movements = cursor.fetchall()
     counts = len(movements)
-    print(movements[0][6])
     return render_template('view_productmovement.html', title='Movement', movements=movements, counts=counts)
-
-########################Sales######################################
-
-@app.route("/view_sales")
-@login_required
-def view_sales():
-    return render_template('view_sales.html', title='Sales')
