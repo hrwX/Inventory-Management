@@ -34,7 +34,7 @@
                         <div class="row">
                             <div class="col-md-12 border rounded pt-2" style=" height:50px;">
                                 <div class="row">
-                                    <div class="col-md-2 col-md-2 border-left pt-2"> 
+                                    <div class="col-md-2 offset-md-1 pt-2"> 
                                         Product Id
                                     </div>
                                     <div class="col-md-2 col-md-2 border-left pt-2">
@@ -42,9 +42,6 @@
                                     </div>
                                     <div class="col-md-2 col-md-2 border-left pt-2">
                                         Quantity
-                                    </div>
-                                    <div class="col-md-2 col-md-2 border-left pt-2">
-                                        Location
                                     </div>
                                     <div class="col-md-2 col-md-2 border-left pt-2">
                                         Edit
@@ -58,27 +55,24 @@
                         <br>
                     </div>
                     <div class="col-md-12" style="height:600px; overflow: auto;">
-                        {% for i in range(100) %}
+                        {% for product in products %}
                             <div class="row">
                                 <div class="col-md-12 border rounded pt-2" style=" height:50px;">
                                     <div class="row">
-                                        <div class="col-md-2 col-md-2 border-left pt-2"> 
-                                            Product Id
+                                        <div class="col-md-2 offset-md-1 pt-2"> 
+                                            {{ product[0] }}
                                         </div>
                                         <div class="col-md-2 col-md-2 border-left pt-2">
-                                            Name
+                                            {{ product[1] }}
                                         </div>
                                         <div class="col-md-2 col-md-2 border-left pt-2">
-                                            Quantity
+                                            {{ product[2] }}
                                         </div>
                                         <div class="col-md-2 col-md-2 border-left pt-2">
-                                            Location
+                                            <a href="{{ url_for('edit_product', product_id=product[0]) }}">Edit</a>
                                         </div>
                                         <div class="col-md-2 col-md-2 border-left pt-2">
-                                            <a href="{{ url_for('edit_product') }}">Edit</a>
-                                        </div>
-                                        <div class="col-md-2 col-md-2 border-left pt-2">
-                                                <a href="{{ url_for('add_productmovement') }}">Move</a>
+                                            <a href="{{ url_for('add_productmovement', product_id=product[0]) }}">Move</a>
                                         </div>
                                     </div>
                                 </div>

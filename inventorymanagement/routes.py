@@ -61,45 +61,121 @@ def logout():
 @app.route("/add_product", methods=['GET', 'POST'])
 @login_required
 def add_product():
-    #queries = Location.query.all()
-    locations = []
-    
-    for query in queries:
-        locations.append(str(query).replace("'", "")) #mumbai_location
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT location_name FROM location")
+    locations = cursor.fetchall()
+    places = []
+    for location in locations:
+        places.append(location[0])
     
     form = AddProduct()
-
-    input_values = request.form.getlist('places[]')
     #for input_value in input_values:
     #    print(input_value)
     
-    location_values = dict(zip(locations, input_values))
-    print(location_values)
     
-    string = "product_name=form.name.data,"
-    for query in queries:
-        string_join = ""+ (str(query) + "_location").replace("'", "") +"=form."+ (str(query) + "_location").replace("'", "") +".data,"
-        string = string + string_join
-    string_join = "product_user_id=current_user"
-    string = string + string_join
+    
+    #string = "product_name=form.name.data,"
+    #for query in queries:
+    #    string_join = ""+ (str(query) + "_location").replace("'", "") +"=form."+ (str(query) + "_location").replace("'", "") +".data,"
+    #    string = string + string_join
+    #string_join = "product_user_id=current_user"
+    #string = string + string_join
 
     if form.validate_on_submit():
-        for location in locations:
-            print(form.name.data)
-   
-    #product = Product(string)
+        name = form.name.data
+        input_values = request.form.getlist('places[]')
+        totalquantity = 0
+        
+        locationinventory = "INSERT INTO `locationinventory`("
+        
+        for count,place in enumerate(places):
+            locationinventory = locationinventory + "'"+ place +"'"
+            if count != len(places)-1:
+                locationinventory = locationinventory + ","
+
+        locationinventory = locationinventory + ") VALUES ("
+
+        for count,input_value in enumerate(input_values):
+            totalquantity = totalquantity + int(input_value)
+            locationinventory = locationinventory + "'"+ input_value +"'"
+            if count != len(input_values)-1:
+                locationinventory = locationinventory + ","
+        
+        locationinventory = locationinventory + ")"
+        location = "INSERT INTO 'product'('product_name','product_quantity','product_user_id') VALUES ('"+ name +"','"+ str(totalquantity) +"','"+ str(current_user.user_id) +"')"
+        print(locationinventory)
+        print(location)
+        cursor.execute(locationinventory)
+        #conn.commit()
+        cursor.execute(location)
+        #conn.commit()
+        conn.close()
+        flash('Done', 'success')
+        return redirect(url_for('add_product'))
+        
     return render_template('add_product.html', title='Product', form=form, locations=locations)
 
-@app.route("/edit_product")
+@app.route("/edit_product?<int:product_id>")
 @login_required
-def edit_product():
+def edit_product(product_id):
     form = AddProduct()
-    return render_template('edit_product.html', title='Product', form=form)
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    values = "Select * from product WHERE product_id="+ str(product_id) +""
+    values = cursor.execute(values)
+    values = cursor.fetchone()
+    locations = "SELECT location_name FROM location"
+    locations = cursor.execute(locations)
+    locations = cursor.fetchall()
+    print(locations)
+    quantities = "Select * from locationinventory WHERE locationinventory_id="+ str(product_id) +""
+    quantities = cursor.execute(quantities)
+    quantities = cursor.fetchone()
+    conn.close()
+    ranges = len(locations)
+    if form.validate_on_submit():
+        name = form.name.data
+        input_values = request.form.getlist('places[]')
+        totalquantity = 0
+        locationinventory = "INSERT INTO `locationinventory`("
+        
+        for count,place in enumerate(places):
+            locationinventory = locationinventory + "'"+ place +"'"
+            if count != len(places)-1:
+                locationinventory = locationinventory + ","
+
+        locationinventory = locationinventory + ") VALUES ("
+
+        for count,input_value in enumerate(input_values):
+            totalquantity = totalquantity + int(input_value)
+            locationinventory = locationinventory + "'"+ input_value +"'"
+            if count != len(input_values)-1:
+                locationinventory = locationinventory + ","
+        
+        locationinventory = locationinventory + ")"
+        #location = "UPDATE 'product'('product_name','product_quantity','product_user_id') VALUES ('"+ name +"','"+ str(totalquantity) +"','"+ str(current_user.user_id) +"')"
+        print(locationinventory)
+        print(location)
+        cursor.execute(locationinventory)
+        #conn.commit()
+        cursor.execute(location)
+        #conn.commit()
+        conn.close()
+        flash('Done', 'success')
+
+    return render_template('edit_product.html', title='Product', form=form, values=values, locations=locations, quantities=quantities, ranges=ranges)
 
 @app.route("/view_product")
 @login_required
 def view_product():
-    return render_template('view_product.html', title='Product')
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    products = cursor.execute("SELECT * FROM product")
+    products = cursor.fetchall()
+    inventory_places = cursor.execute("SELECT * FROM locationinventory")
+    inventory_places = cursor.fetchall()
+    return render_template('view_product.html', title='Product', products=products, inventory_places=inventory_places)
 
 ########################Locations######################################
 
@@ -110,18 +186,20 @@ def add_location():
     if form.validate_on_submit():
         conn = mysql.connect()
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO `location`(`location_name`) VALUES ('"+ form.name.data +"')")
-        conn.commit()
-        location = (form.name.data).replace(" ","")
-        print(location)
-        print("ALTER TABLE locationinventory ADD COLUMN "+ form.name.data +" INTEGER DEFAULT 0")
-        cursor.execute("ALTER TABLE locationinventory ADD COLUMN "+ (form.name.data).replace(" ", "_") +" INTEGER DEFAULT 0")
-        conn.commit()
-        conn.close()
-        print("INSERT INTO `location`(`location_name`) VALUES ('"+ form.name.data +"')")
-        print("ALTER TABLE locationinventory ADD COLUMN "+ form.name.data +" INTEGER DEFAULT 0")
-        flash('Location Added')
-        return redirect(url_for('view_location'))
+        count = cursor.execute("SELECT COUNT(*) FROM location WHERE location_name='"+ form.name.data +"'")
+        if count == 0:
+            cursor.execute("INSERT INTO `location`(`location_name`) VALUES ('"+ (form.name.data).replace(" ", "_") +"')")
+            conn.commit()
+            cursor.execute("ALTER TABLE locationinventory ADD COLUMN "+ (form.name.data).replace(" ", "_") +" INTEGER DEFAULT 0")
+            conn.commit()
+            conn.close()
+            flash('Location Added', 'success')
+            return redirect(url_for('view_location'))
+        else:
+            conn.close()
+            flash('Location Exixts', 'danger')
+            return redirect(url_for('add_location'))
+        
     return render_template('add_location.html', title='Location', form=form)
 
 @app.route("/edit_location?<int:location_id>", methods=['GET', 'POST'])
@@ -131,11 +209,10 @@ def edit_location(location_id):
     conn = mysql.connect()
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM location WHERE location_id='"+ str(location_id) +"'")
-    conn.commit()
     location = cursor.fetchone()
     if form.validate_on_submit():
         cursor.execute("UPDATE location SET location_name='"+ form.name.data +"' WHERE location_id='"+ str(location_id) +"'")
-        print(cursor)
+        conn.commit()
         flash('Updated!', 'success')
         return redirect(url_for('view_location'))
     elif request.method == 'GET':
@@ -153,7 +230,7 @@ def view_location():
 
 ########################ProductMovements######################################
 
-@app.route("/add_productmovement", methods=['GET', 'POST'])
+@app.route("/add_productmovement?<int:product_id>", methods=['GET', 'POST'])
 @login_required
 def add_productmovement():
     time = datetime.date.today()
@@ -177,8 +254,3 @@ def view_productmovement():
 @login_required
 def view_sales():
     return render_template('view_sales.html', title='Sales')
-
-@app.route("/bcrypt")
-def bcrypter():
-    hashed_password = bcrypt.generate_password_hash('123456').decode('utf-8')
-    return render_template('bcrypt.html', title='Movement', hashed_password=hashed_password)

@@ -21,7 +21,7 @@
                     <fieldset>
                         {% for location in locations %}
                             <div class="form-group">
-                                <label class="form-control-label">{{ location }}</label>
+                                <label class="form-control-label">{{ location[0] }}</label>
                                 <input class="form-control form-control-lg" id="places[]" name="places[]" value="0">       
                             </div>
                         {% endfor %}

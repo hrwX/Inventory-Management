@@ -1,28 +1,41 @@
 {% extends "layout.html" %}
 {% block content %}
     <div class="col-md-6 offset-md-3 border pt-2">
-        <br>
         <div class="row">
             <div class="col-md-12">
                 <form method="POST" action="">
                 {{ form.hidden_tag() }} <!--CSRF TOKEN -->
                     <fieldset class="form-group">
                         <div class="form-group">
-                            {{ form.name.label(class="form-control-label") }}
-                            {{ form.name(class="form-control form-control-lg") }}
-                        </div>
-                        <div class="form-group">
-                            {{ form.location.label(class="form-control-label") }}
-                            {{ form.location(class="form-control form-control-lg") }}
-                        </div>
-                        <div class="form-group">
-                            {{ form.quantity.label(class="form-control-label") }}
-                            {{ form.quantity(class="form-control form-control-lg") }}
+                            <label class="form-control-label">Product Name</label>
+                            <input class="form-control form=control-lg" name="name" id="name" value="{{ values[1] }}">
                         </div>
                     </fieldset>
-                    <div class="form-group">
-                        {{ form.submit(class="btn btn-success") }}
-                    </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-control-label">Locations</label>
+            </div>
+            <div class="col-md-12" style="height:400px; overflow: auto;">
+                    <fieldset>
+                        {% for index in range(ranges) %}
+                            <div class="form-group">
+                                <label class="form-control-label">{{ locations[index][0] }}</label>
+                                <input class="form-control form-control-lg" id="places[]" name="places[]" value="{{  quantities[index] }}">
+                            </div>
+                        {% endfor %}
+                    </fieldset>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                    <fieldset>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-success" value="Edit Product">
+                        </div>
+                    </fieldset>
                 </form>
             </div>
         </div>
