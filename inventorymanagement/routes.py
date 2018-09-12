@@ -83,7 +83,7 @@ def add_product():
             if count != len(places)-1:
                 locationinventory = locationinventory + ","
 
-        locationinventory = locationinventory + ") VALUES ("
+        locationinventory = locationinventory + ",`user_id`) VALUES ("
 
         for count,input_value in enumerate(input_values):
             totalquantity = totalquantity + int(input_value)
@@ -91,8 +91,9 @@ def add_product():
             if count != len(input_values)-1:
                 locationinventory = locationinventory + ","
         
-        locationinventory = locationinventory + ")"
-        location = "INSERT INTO `product`(`product_name`,`product_quantity`,`product_user_id`) VALUES ('"+ name +"','"+ str(totalquantity) +"','"+ str(current_user.user_id) +"')"
+        locationinventory = locationinventory + ",'"+ str(current_user.user_id) +"')"
+        location = "INSERT INTO `product`(`product_name`,`product_quantity`,`user_id`) VALUES ('"+ name +"','"+ str(totalquantity) +"','"+ str(current_user.user_id) +"')"
+        print(locationinventory)
         cursor.execute(locationinventory)
         conn.commit()
         cursor.execute(location)
@@ -123,7 +124,10 @@ def edit_product(product_id):
     quantities = []
     for inventory in inventory:
         quantities.append(inventory)
-    quantities.pop(0)
+    print(quantities)
+    for count in range(2):
+        quantities.pop(0)
+    print(quantities)
     if form.validate_on_submit():
         name = form.name.data
         input_values = request.form.getlist('places[]')
@@ -138,7 +142,7 @@ def edit_product(product_id):
                 locationinventory = locationinventory + ","
 
         locationinventory = locationinventory + " WHERE `locationinventory_id`=" + str(product_id)
-        location = "UPDATE `product` SET `product_name`='"+ name +"',`product_quantity`='"+ str(totalquantity) +"',`product_user_id`='"+ str(current_user.user_id) +"' WHERE product_id="+ str(product_id)
+        location = "UPDATE `product` SET `product_name`='"+ name +"',`product_quantity`='"+ str(totalquantity) +"' WHERE product_id="+ str(product_id)
         print(locationinventory)
         cursor.execute(locationinventory)
         conn.commit()
@@ -180,7 +184,7 @@ def product_info(product_id):
 def view_product():
     conn = mysql.connect()
     cursor = conn.cursor()
-    products = cursor.execute("SELECT * FROM product")
+    products = cursor.execute("SELECT * FROM product WHERE user_id='"+ str(current_user.user_id)+"'")
     products = cursor.fetchall()
     inventory_places = cursor.execute("SELECT * FROM locationinventory")
     inventory_places = cursor.fetchall()
