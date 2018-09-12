@@ -256,7 +256,6 @@ def view_location():
 @login_required
 def add_productmovement(product_id):
     form = ProductMovement()
-
     conn = mysql.connect()
     cursor = conn.cursor()
     cursor.execute("SELECT product_name FROM product WHERE product_id="+ str(product_id) +"")
@@ -276,6 +275,20 @@ def add_productmovement(product_id):
         date = request.values.get('timestamp')
         email = request.values.get('email')
         print(product_name,from_location,to_location,quantity,date,email)
+        query = "SELECT "+ str(from_location) +","+ str(to_location) +" FROM locationinventory WHERE locationinventory_id="+ str(product_id) +""
+        cursor.execute(query)
+        value = cursor.fetchone()
+        from_location_qty = value[0] - int(quantity)
+        to_location_qty = value[1] + int(quantity)
+        query = "UPDATE locationinventory SET "+ str(from_location) +"='"+ str(from_location_qty) +"', "+ str(to_location) +"='"+ str(to_location_qty) +"' WHERE locationinventory_id="+ str(product_id) +""
+        print(query)
+        cursor.execute(query)
+        conn.commit()
+        query = "INSERT INTO `productmovement`(`product_id`, `product_name`, `from_location_name`, `to_location_name`, `product_quantity`, `timestamp`, `user_id`) VALUES ('"+ str(product_id) +"','"+ form.name.data +"','"+ str(from_location) +"','"+ str(to_location) +"','"+ quantity +"','"+ date +"','"+ str(current_user.user_id) +"')"
+        print(query)
+        cursor.execute(query)
+        conn.commit()
+        conn.close()
         flash('Updated!', 'success')
         return redirect(url_for('view_location'))
     return render_template('add_productmovement.html', title='Movement', form=form, time=time, email=current_user.email, product_name=product_name[0], locations=locations, quantities=quantities, ranges=ranges)
@@ -283,7 +296,9 @@ def add_productmovement(product_id):
 @app.route("/edit_productmovement")
 @login_required
 def edit_productmovement():
-    form = ProductMovement()
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
     return render_template('edit_productmovement.html', title='Movement', form=form)
 
 @app.route("/view_productmovement")
