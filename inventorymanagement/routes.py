@@ -14,7 +14,16 @@ def anon():
 
 @app.route("/home")
 def home():
-    return render_template('home.html', title='Home')
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(product_id) FROM product WHERE user_id="+ str(current_user.user_id) +"")
+    products = cursor.fetchone()
+    cursor.execute("SELECT COUNT(location_id) FROM location")
+    locations = cursor.fetchone()
+    cursor.execute("SELECT COUNT(*) FROM inventorymovement WHERE user_id="+ str(current_user.user_id) +"")
+    movements = cursor.fetchone()
+    sales = 5
+    return render_template('home.html', title='Home', products=products[0], locations=locations[0], sales=sales, movements=movements[0])
 
 @app.route("/about")
 def about():
