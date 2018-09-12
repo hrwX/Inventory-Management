@@ -43,20 +43,11 @@ class AddLocation(FlaskForm):
 
 ########################ProductMovements######################################
 
-class AddProductMovement(FlaskForm):
-    conn = mysql.connect()
-    cursor = conn.cursor()
-    cursor.execute("SELECT location_name FROM location")
-    locations = cursor.fetchall()
-    values = []
-    
-    for location in locations:
-        values.append((location[0], location[0]))
-    
-    name = StringField('Product Name', validators=[DataRequired()])
-    fromLocation = SelectField('From Location', choices=values, validators=[DataRequired()])   
-    toLocation = SelectField('To Location', choices=values, validators=[DataRequired()])
-    quantity = IntegerField('Product Quantity', validators=[DataRequired()])
-    timestamp = DateField('Date', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
+class ProductMovement(FlaskForm):   
+    name = StringField('Product Name', validators=[DataRequired()])   
+    #timestamp = DateField('Date', validators=[DataRequired()])
+    #fromLocation = SelectField('From Location', validators=[DataRequired()])
+    #toLocation = SelectField('To Location', validators=[DataRequired()])
+    #quantity = SelectField('Quantity', validators=[DataRequired()])
+    #email = StringField('Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Move Product')

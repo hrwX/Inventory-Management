@@ -1,7 +1,7 @@
 import datetime
 from flask import render_template, url_for, flash, redirect, request
 from inventorymanagement import app, bcrypt, mysql, db
-from inventorymanagement.forms import RegistrationForm, LoginForm, AddProduct, AddLocation, AddProductMovement
+from inventorymanagement.forms import RegistrationForm, LoginForm, AddProduct, AddLocation, ProductMovement
 from inventorymanagement.models import User
 from flask_login import login_user, current_user, logout_user, login_required
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, DateTimeField, SelectField, Label
@@ -20,7 +20,7 @@ def home():
     products = cursor.fetchone()
     cursor.execute("SELECT COUNT(location_id) FROM location")
     locations = cursor.fetchone()
-    cursor.execute("SELECT COUNT(*) FROM inventorymovement WHERE user_id="+ str(current_user.user_id) +"")
+    cursor.execute("SELECT COUNT(*) FROM productmovement WHERE user_id="+ str(current_user.user_id) +"")
     movements = cursor.fetchone()
     sales = 5
     return render_template('home.html', title='Home', products=products[0], locations=locations[0], sales=sales, movements=movements[0])
@@ -255,27 +255,27 @@ def view_location():
 @app.route("/add_productmovement?<int:product_id>", methods=['GET', 'POST'])
 @login_required
 def add_productmovement(product_id):
-    form = AddProductMovement()
-    print(form)
+    form = ProductMovement()
+
     conn = mysql.connect()
     cursor = conn.cursor()
-    time = datetime.date.today()
-    form = AddProductMovement()
     cursor.execute("SELECT product_name FROM product WHERE product_id="+ str(product_id) +"")
     product_name = cursor.fetchone()
     cursor.execute("SELECT location_name FROM location")
     locations = cursor.fetchall()
+    time = datetime.date.today()
     ranges = len(locations)
     cursor.execute("SELECT * FROM locationinventory WHERE locationinventory_id="+ str(product_id) +"")
     quantities = cursor.fetchall()
+    print(form.validate_on_submit())
     if form.validate_on_submit():
         product_name = form.name.data
-        from_location = form.fromLocation.data
-        to_location = form.toLocation.data
-        quantity = form.quantity.data
-        date = form.timestamp.data
-        email = form.email.data
-        print(product_name,from_location,to_location,quantity)
+        from_location = request.values.get('fromLocation')
+        to_location = request.values.get('toLocation')
+        quantity = request.values.get('quantity')
+        date = request.values.get('timestamp')
+        email = request.values.get('email')
+        print(product_name,from_location,to_location,quantity,date,email)
         flash('Updated!', 'success')
         return redirect(url_for('view_location'))
     return render_template('add_productmovement.html', title='Movement', form=form, time=time, email=current_user.email, product_name=product_name[0], locations=locations, quantities=quantities, ranges=ranges)
@@ -283,7 +283,7 @@ def add_productmovement(product_id):
 @app.route("/edit_productmovement")
 @login_required
 def edit_productmovement():
-    form = AddProductMovement()
+    form = ProductMovement()
     return render_template('edit_productmovement.html', title='Movement', form=form)
 
 @app.route("/view_productmovement")

@@ -11,32 +11,50 @@
                             <label class="form-control-label">Product Name</label>
                             <input name="name" id="name" class="form-control form-control-lg" value="{{ product_name }}">
                         </div>
+                        <div class="form-group">
+                            <label class="form-control-label">Product Quantities at Respective Locations</label>
+                        </div>    
                         <div class="form-group" style="height:100px;overflow: auto;">
                             {% for index in range(ranges) %}
-                            <div class="form-group">
-                                <input class="form-control form-control-md" value="Quantity at {{ locations[index][0] }} location is {{ quantities[0][index] }}" disabled>
-                            </div>
+                                {% if quantities[0][index] != 0%}
+                                    <div class="form-group">
+                                        <input class="form-control form-control-md" value="Quantity at {{ locations[index][0] }} location is {{ quantities[0][index] }}" disabled>
+                                    </div>
+                                {% endif %}
                             {% endfor %}
                         </div>
                         <div class="form-group">
-                            {{ form.fromLocation.label(class="form-control-label") }}
-                            {{ form.fromLocation(class="form-control form-control-lg") }}
+                            <label class="form-control-label">From Location</label>
+                            <select name="fromLocation" id="fromLocation" class="form-control form-control-lg">
+                            {% for index in range(ranges) %}
+                                {% if quantities[0][index] != 0%}
+                                    <option value="{{ locations[index][0] }}" data-qty="{{ quantities[0][index] }}">{{ locations[index][0] }}</option>
+                                {% endif %}
+                            {% endfor %}
+                            </select>
                         </div>
                         <div class="form-group">
-                            {{ form.toLocation.label(class="form-control-label") }}
-                            {{ form.toLocation(class="form-control form-control-lg") }}
+                            <label class="form-control-label">To Location</label>
+                            <select name="toLocation" id="toLocation" class="form-control form-control-lg">
+                            {% for index in range(ranges) %}
+                                <option value="{{ locations[index][0] }}">{{ locations[index][0] }}</option>
+                            {% endfor %}
+                            </select>
                         </div>
                         <div class="form-group">
-                            {{ form.quantity.label(class="form-control-label") }}
-                            {{ form.quantity(class="form-control form-control-lg") }}
+                            <label class="form-control-label">Quantity</label>
+                            <select name="quantity" id="quantity" class="form-control form-control-lg">
+                                <div id="remove">
+                                </div>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label class="form-control-label">Date</label>
-                            <input name="timestamp" id="timestamp" class="form-control form-control-lg" value="{{ time }}" disabled>
+                            <input name="timestamp" id="timestamp" class="form-control form-control-lg" value="{{ time }}" readonly>
                         </div>
                         <div class="form-group">
                             <label class="form-control-label">Email</label>
-                            <input name="email" id="email" class="form-control form-control-lg" value="{{ email }}" disabled>
+                            <input name="email" id="email" class="form-control form-control-lg" value="{{ email }}" readonly>
                         </div>
                     </fieldset>
                     <div class="form-group">
@@ -46,10 +64,21 @@
             </div>
         </div>
     </div>
-    <script>
-        function value(){
-            
-            console.log(conceptName)
-        }
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script language="JavaScript" type="text/javascript">
+        $("#fromLocation").change(function () {
+            value = $(this).find(':selected').data('qty');
+            select = document.getElementById('quantity');
+            remove = document.getElementById('remove');
+            append = '';
+            empty = '';
+            for (i = 1; i < value+1; i++) {
+                append = append + '<option id="remove" value="'+ i +'">'+ i +'</option>';
+            }
+            select.innerHTML += append;
+        });  
+    </script>
+    <script type="text/javascript">
+        
     </script>
 {% endblock content %}
