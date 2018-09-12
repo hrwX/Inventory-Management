@@ -304,7 +304,13 @@ def edit_productmovement():
 @app.route("/view_productmovement")
 @login_required
 def view_productmovement():
-    return render_template('view_productmovement.html', title='Movement')
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM productmovement WHERE user_id="+ str(current_user.user_id) +"")
+    movements = cursor.fetchall()
+    counts = len(movements)
+    print(movements[0][6])
+    return render_template('view_productmovement.html', title='Movement', movements=movements, counts=counts)
 
 ########################Sales######################################
 

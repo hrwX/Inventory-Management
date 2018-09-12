@@ -37,13 +37,19 @@
                                         Name
                                     </div>
                                     <div class="col border-left pt-2">
+                                        From Location
+                                    </div>
+                                    <div class="col border-left pt-2">
+                                        To Location
+                                    </div>
+                                    <div class="col border-left pt-2">
                                         Quantity
                                     </div>
                                     <div class="col border-left pt-2">
-                                        Location
+                                        Date
                                     </div>
                                     <div class="col border-left pt-2">
-                                        Edit
+                                        Revert
                                     </div>
                                 </div>
                             </div>
@@ -51,24 +57,30 @@
                         <br>
                     </div>
                     <div class="col-md-12" style="height:600px; overflow: auto;">
-                        {% for i in range(100) %}
+                        {% for count in range(counts) %}
                             <div class="row">
                                 <div class="col-md-12 border rounded pt-2" style=" height:50px;">
                                     <div class="row">
                                         <div class="col pt-2"> 
-                                            Product Id
+                                            {{ movements[count][1] }}
                                         </div>
                                         <div class="col border-left pt-2">
-                                            Name
+                                            {{ movements[count][2] }}
                                         </div>
                                         <div class="col border-left pt-2">
-                                            Quantity
+                                            {{ movements[count][3] }}
                                         </div>
                                         <div class="col border-left pt-2">
-                                            Location
+                                            {{ movements[count][4] }}
                                         </div>
                                         <div class="col border-left pt-2">
-                                            <a href="{{ url_for('edit_productmovement') }}">Edit</a>
+                                            {{ movements[count][5] }}
+                                        </div>
+                                        <div class="col border-left pt-2">
+                                            {{ movements[count][6] }}
+                                        </div>
+                                        <div class="col border-left pt-2">
+                                            <a href="{{ url_for('edit_productmovement', movement_id=movements[count][0]) }}">Revert</a>
                                         </div>
                                     </div>
                                 </div>
