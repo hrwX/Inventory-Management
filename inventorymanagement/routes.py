@@ -70,17 +70,6 @@ def add_product():
         places.append(location[0])
     
     form = AddProduct()
-    #for input_value in input_values:
-    #    print(input_value)
-    
-    
-    
-    #string = "product_name=form.name.data,"
-    #for query in queries:
-    #    string_join = ""+ (str(query) + "_location").replace("'", "") +"=form."+ (str(query) + "_location").replace("'", "") +".data,"
-    #    string = string + string_join
-    #string_join = "product_user_id=current_user"
-    #string = string + string_join
 
     if form.validate_on_submit():
         name = form.name.data
@@ -106,9 +95,9 @@ def add_product():
         location = "INSERT INTO 'product'('product_name','product_quantity','product_user_id') VALUES ('"+ name +"','"+ str(totalquantity) +"','"+ str(current_user.user_id) +"')"
         print(locationinventory)
         print(location)
-        cursor.execute(locationinventory)
+        #cursor.execute(locationinventory)
         #conn.commit()
-        cursor.execute(location)
+        #cursor.execute(location)
         #conn.commit()
         conn.close()
         flash('Done', 'success')
@@ -232,10 +221,31 @@ def view_location():
 
 @app.route("/add_productmovement?<int:product_id>", methods=['GET', 'POST'])
 @login_required
-def add_productmovement():
+def add_productmovement(product_id):
+    form = AddProductMovement()
+    print(form)
+    conn = mysql.connect()
+    cursor = conn.cursor()
     time = datetime.date.today()
     form = AddProductMovement()
-    return render_template('add_productmovement.html', title='Movement', form=form, time=time)
+    cursor.execute("SELECT product_name FROM product WHERE product_id="+ str(product_id) +"")
+    product_name = cursor.fetchone()
+    cursor.execute("SELECT location_name FROM location")
+    locations = cursor.fetchall()
+    ranges = len(locations)
+    cursor.execute("SELECT * FROM locationinventory WHERE locationinventory_id="+ str(product_id) +"")
+    quantities = cursor.fetchall()
+    if form.validate_on_submit():
+        product_name = form.name.data
+        from_location = form.fromLocation.data
+        to_location = form.toLocation.data
+        quantity = form.quantity.data
+        date = form.timestamp.data
+        email = form.email.data
+        print(product_name,from_location,to_location,quantity)
+        flash('Updated!', 'success')
+        return redirect(url_for('view_location'))
+    return render_template('add_productmovement.html', title='Movement', form=form, time=time, email=current_user.email, product_name=product_name[0], locations=locations, quantities=quantities, ranges=ranges)
 
 @app.route("/edit_productmovement")
 @login_required

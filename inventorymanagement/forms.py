@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from inventorymanagement import app, mysql, db
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, DateTimeField, SelectField, Label
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, SelectField, DateField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from inventorymanagement.models import User
 
@@ -33,46 +33,30 @@ class LoginForm(FlaskForm):
 
 class AddProduct(FlaskForm):
     name = StringField('Product Name', validators=[DataRequired()])
-    #print(name)        
-    #def add(self, locations): #initializing dynamic fields      
-    #    for location in locations:
-    #        location = StringField(location, validators=[DataRequired()])
-    #        print(location)
     submit = SubmitField('Add Product')
-
-    def validate_product(self, product):
-        product = Product.query.filter_by(product_name = product.data).first()
-        if product:
-            raise ValidationError('Product Taken')
 
 ########################Locations######################################
 
 class AddLocation(FlaskForm):
     name = StringField('Location Name', validators=[DataRequired()])
     submit = SubmitField('Add Location')
-    def validate_location(self, location):
-        location = Location.query.filter_by(location_name = location.data).first()
-        if location:
-            raise ValidationError('Location Present')
 
 ########################ProductMovements######################################
 
 class AddProductMovement(FlaskForm):
-    locations = ''#Location.query.all()
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT location_name FROM location")
+    locations = cursor.fetchall()
     values = []
+    
     for location in locations:
-        values.append((location.location_name, location.location_name))
+        values.append((location[0], location[0]))
     
     name = StringField('Product Name', validators=[DataRequired()])
-    product_id = IntegerField(validators=[DataRequired()])
-    
-    fromLocation = SelectField('From Location', choices=values, validators=[DataRequired()])
-    fromLocationId = IntegerField(validators=[DataRequired()])
-    
+    fromLocation = SelectField('From Location', choices=values, validators=[DataRequired()])   
     toLocation = SelectField('To Location', choices=values, validators=[DataRequired()])
-    toLocationId = IntegerField(validators=[DataRequired()])
-    
     quantity = IntegerField('Product Quantity', validators=[DataRequired()])
-    
-    timestamp = DateTimeField(validators=[DataRequired()])
+    timestamp = DateField('Date', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Move Product')
