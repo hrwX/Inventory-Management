@@ -79,7 +79,7 @@ def add_product():
         locationinventory = "INSERT INTO `locationinventory`("
         
         for count,place in enumerate(places):
-            locationinventory = locationinventory + "'"+ place +"'"
+            locationinventory = locationinventory + "`"+ place +"`"
             if count != len(places)-1:
                 locationinventory = locationinventory + ","
 
@@ -92,21 +92,17 @@ def add_product():
                 locationinventory = locationinventory + ","
         
         locationinventory = locationinventory + ")"
-        location = "INSERT INTO 'product'('product_name','product_quantity','product_user_id') VALUES ('"+ name +"','"+ str(totalquantity) +"','"+ str(current_user.user_id) +"')"
-        print(locationinventory)
-        print(location)
-        #cursor.execute(locationinventory)
-        #conn.commit()
-        #cursor.execute(location)
-        #conn.commit()
+        location = "INSERT INTO `product`(`product_name`,`product_quantity`,`product_user_id`) VALUES ('"+ name +"','"+ str(totalquantity) +"','"+ str(current_user.user_id) +"')"
+        cursor.execute(locationinventory)
+        conn.commit()
+        cursor.execute(location)
+        conn.commit()
         conn.close()
         flash('Done', 'success')
-        return redirect(url_for('add_product'))
-        
+        return redirect(url_for('view_product'))
     return render_template('add_product.html', title='Product', form=form, locations=locations)
 
-@app.route("/edit_product?<int:product_id>")
-@login_required
+@app.route("/edit_product?<int:product_id>", methods=['GET', 'POST'])
 def edit_product(product_id):
     form = AddProduct()
     conn = mysql.connect()
@@ -117,42 +113,41 @@ def edit_product(product_id):
     locations = "SELECT location_name FROM location"
     locations = cursor.execute(locations)
     locations = cursor.fetchall()
-    print(locations)
-    quantities = "Select * from locationinventory WHERE locationinventory_id="+ str(product_id) +""
-    quantities = cursor.execute(quantities)
-    quantities = cursor.fetchone()
-    conn.close()
+    places = []
+    for location in locations:
+        places.append(location[0])
+    inventory = "Select * from locationinventory WHERE locationinventory_id="+ str(product_id) +""
+    inventory = cursor.execute(inventory)
+    inventory = cursor.fetchone()
     ranges = len(locations)
+    quantities = []
+    for inventory in inventory:
+        quantities.append(inventory)
+    quantities.pop(0)
     if form.validate_on_submit():
         name = form.name.data
         input_values = request.form.getlist('places[]')
+        print(input_values)
         totalquantity = 0
-        locationinventory = "INSERT INTO `locationinventory`("
+        locationinventory = "UPDATE `locationinventory` SET "
         
-        for count,place in enumerate(places):
-            locationinventory = locationinventory + "'"+ place +"'"
-            if count != len(places)-1:
+        for index in range(ranges):
+            locationinventory = locationinventory + "`" + locations[index][0] + "`='" + str(input_values[index]) +"'"
+            totalquantity = totalquantity + int(input_values[index])
+            if index != len(input_values)-1:
                 locationinventory = locationinventory + ","
 
-        locationinventory = locationinventory + ") VALUES ("
-
-        for count,input_value in enumerate(input_values):
-            totalquantity = totalquantity + int(input_value)
-            locationinventory = locationinventory + "'"+ input_value +"'"
-            if count != len(input_values)-1:
-                locationinventory = locationinventory + ","
-        
-        locationinventory = locationinventory + ")"
-        #location = "UPDATE 'product'('product_name','product_quantity','product_user_id') VALUES ('"+ name +"','"+ str(totalquantity) +"','"+ str(current_user.user_id) +"')"
+        locationinventory = locationinventory + " WHERE `locationinventory_id`=" + str(product_id)
+        location = "UPDATE `product` SET `product_name`='"+ name +"',`product_quantity`='"+ str(totalquantity) +"',`product_user_id`='"+ str(current_user.user_id) +"' WHERE product_id="+ str(product_id)
         print(locationinventory)
-        print(location)
         cursor.execute(locationinventory)
-        #conn.commit()
+        conn.commit()
+        print(location)
         cursor.execute(location)
-        #conn.commit()
+        conn.commit()
         conn.close()
         flash('Done', 'success')
-
+        return redirect(url_for('view_product'))
     return render_template('edit_product.html', title='Product', form=form, values=values, locations=locations, quantities=quantities, ranges=ranges)
 
 @app.route("/view_product")
