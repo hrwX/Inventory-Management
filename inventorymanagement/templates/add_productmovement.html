@@ -9,7 +9,7 @@
                 <fieldset class="form-group">
                         <div class="form-group">
                             <label class="form-control-label">Product Name</label>
-                            <input name="name" id="name" class="form-control form-control-lg" value="{{ product_name }}">
+                            <input name="name" id="name" class="form-control form-control-lg" value="{{ product_name }}" readonly>
                         </div>
                         <div class="form-group">
                             <label class="form-control-label">Product Quantities at Respective Locations</label>
@@ -70,7 +70,6 @@
             select = document.getElementById('quantity');
             $('#quantity').html(' ');
             append = '';
-            empty = '';
             for (i = 1; i < value+1; i++) {
                 append = append + '<option id="remove" value="'+ i +'">'+ i +'</option>';
             }
@@ -82,7 +81,6 @@
             value = $(this).find(':selected').data('qty');
             select = document.getElementById('quantity');
             append = '';
-            alert(value);
             for (i = 1; i < value+1; i++) {
                 append = append + '<option id="remove" value="'+ i +'">'+ i +'</option>';
             }
