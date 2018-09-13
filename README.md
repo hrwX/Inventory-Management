@@ -43,3 +43,17 @@
 ![Image description](https://github.com/himanshu-96/Inventory-Management/blob/master/images/ViewProduct.png)
 
 ![Image description](https://github.com/himanshu-96/Inventory-Management/blob/master/images/EditProduct.png)
+
+- Location Summary, Add and Edit Screens
+
+![Image description](https://github.com/himanshu-96/Inventory-Management/blob/master/images/Location.png)
+
+![Image description](https://github.com/himanshu-96/Inventory-Management/blob/master/images/AddLocation.png)
+
+![Image description](https://github.com/himanshu-96/Inventory-Management/blob/master/images/EditLocation.png)
+
+- Product Movement Summary and Add Screens
+
+![Image description](https://github.com/himanshu-96/Inventory-Management/blob/master/images/Movement.png)
+
+![Image description](https://github.com/himanshu-96/Inventory-Management/blob/master/images/MovementProduct.png)
