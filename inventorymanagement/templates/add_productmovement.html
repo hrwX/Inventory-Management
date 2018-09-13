@@ -44,8 +44,7 @@
                         <div class="form-group">
                             <label class="form-control-label">Quantity</label>
                             <select name="quantity" id="quantity" class="form-control form-control-lg">
-                                <div id="remove">
-                                </div>
+                                
                             </select>
                         </div>
                         <div class="form-group">
@@ -69,7 +68,7 @@
         $("#fromLocation").change(function () {
             value = $(this).find(':selected').data('qty');
             select = document.getElementById('quantity');
-            remove = document.getElementById('remove');
+            $('#quantity').html(' ');
             append = '';
             empty = '';
             for (i = 1; i < value+1; i++) {
@@ -79,6 +78,15 @@
         });  
     </script>
     <script type="text/javascript">
-        
+        $(document).ready(function(){
+            value = $(this).find(':selected').data('qty');
+            select = document.getElementById('quantity');
+            append = '';
+            alert(value);
+            for (i = 1; i < value+1; i++) {
+                append = append + '<option id="remove" value="'+ i +'">'+ i +'</option>';
+            }
+            select.innerHTML += append;
+            });
     </script>
 {% endblock content %}
