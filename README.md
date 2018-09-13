@@ -16,3 +16,13 @@
   - MySQL
 - Server(Localhost)
 - MySQL Server
+
+# To Run the app
+- Fork the repository
+- Import the '.sql' file in MySQL server
+- Run the app and goto 'localhost:5000'
+- Test Accounts Present
+  - Email 1 : test@test.com
+  - Password 1  : 123456 
+  - Email 2 : test1@test1.com
+  - Password 2  : 123456
