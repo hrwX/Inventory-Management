@@ -27,7 +27,7 @@
                             <label class="form-control-label">From Location</label>
                             <select name="fromLocation" id="fromLocation" class="form-control form-control-lg">
                             {% for index in range(ranges) %}
-                                {% if quantities[0][index] != 0%}
+                                {% if quantities[index] != 0%}
                                     <option value="{{ locations[index][0] }}" data-qty="{{ quantities[index] }}">{{ locations[index][0] }}</option>
                                 {% endif %}
                             {% endfor %}

@@ -311,7 +311,6 @@ def edit_productmovement(productmovement_id):
     quantity = query[5]
     cursor.execute("SELECT "+ str(from_location) +","+ str(to_location) +" FROM locationinventory WHERE locationinventory_id="+ str(product_id) +"")
     inventory = cursor.fetchone()
-    print(inventory)
     from_location_qty = inventory[0] + quantity
     to_location_qty = inventory[1] - quantity
     cursor.execute("UPDATE locationinventory SET "+ str(from_location) +"='"+ str(from_location_qty) +"', "+ str(to_location) +"='"+ str(to_location_qty) +"' WHERE locationinventory_id="+ str(product_id) +"")
