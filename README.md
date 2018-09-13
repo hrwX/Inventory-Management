@@ -33,3 +33,13 @@
 ![Image description](https://github.com/himanshu-96/Inventory-Management/blob/master/images/Login.png)
 
 ![Image description](https://github.com/himanshu-96/Inventory-Management/blob/master/images/Register.png)
+
+- Product Summary, Add, View and Edit Screens
+
+![Image description](https://github.com/himanshu-96/Inventory-Management/blob/master/images/Product.png)
+
+![Image description](https://github.com/himanshu-96/Inventory-Management/blob/master/images/AddProduct.png)
+
+![Image description](https://github.com/himanshu-96/Inventory-Management/blob/master/images/ViewProduct.png)
+
+![Image description](https://github.com/himanshu-96/Inventory-Management/blob/master/images/EditProduct.png)
