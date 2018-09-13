@@ -26,3 +26,10 @@
   - Password 1  : 123456 
   - Email 2 : test1@test1.com
   - Password 2  : 123456
+  
+# Screenshots 
+- Login and Register Page
+  
+![Image description](https://github.com/himanshu-96/Inventory-Management/blob/master/images/Login.png)
+
+![Image description](https://github.com/himanshu-96/Inventory-Management/blob/master/images/Register.png)
